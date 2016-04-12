@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Skeleton\Test;
+namespace Jolita\DiscogsApiWrapper\Test;
 
-class ExampleTest extends \PHPUnit_Framework_TestCase
+class DiscogsApiTest extends \PHPUnit_Framework_TestCase
 {
     /** @test */
     public function true_is_true()

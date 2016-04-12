@@ -1,34 +1,35 @@
 {
-    "name": "spatie/:package_name",
-    "description": ":package_description",
+    "name": "jolitagrazyte/discogs-api-wrapper",
+    "description": "A simple Discogs Api wrapper using Guzzle6.",
     "keywords": [
-        "spatie",
-        ":package_name"
+        "Discogs Api"
     ],
-    "homepage": "https://github.com/spatie/:package_name",
+    "homepage": "https://github.com/jolitagrazyte/discogs-api-wrapper",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
-            "homepage": "https://spatie.be",
+            "name": "Jolita Grazyte",
+            "email": "hello@jolitagrazyte.com",
+            "homepage": "http://jolitagrazyte.com",
             "role": "Developer"
         }
     ],
     "require": {
-        "php" : "^7.0"
+        "php" : "^7.0",
+        "illuminate/support": "5.*",
+        "guzzlehttp/guzzle":"^6.1"
     },
     "require-dev": {
         "phpunit/phpunit": "4.*"
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\Skeleton\\": "src"
+            "Jolita\\DiscogsApiWrapper\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\Skeleton\\Test\\": "tests"
+            "Jolita\\DiscogsApiWrapper\\Test\\": "tests"
         }
     },
     "scripts": {

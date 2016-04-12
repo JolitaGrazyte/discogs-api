@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Skeleton;
+namespace Jolita\DiscogsApiWrapper;
 
-class SkeletonClass
+class DiscogsApi
 {
     /**
      * Create a new Skeleton Instance
