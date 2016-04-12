@@ -4,12 +4,13 @@ namespace Jolita\DiscogsApiWrapper;
 
 class DiscogsApi
 {
-    /**
-     * Create a new Skeleton Instance
-     */
+    protected $resources;
+    protected $config;
+
     public function __construct()
     {
-        // constructor body
+        $this->resources = require(__DIR__.'../../config/laravel-discogs-api-resources.php');
+        $this->config = require(__DIR__.'../../config/laravel-discogs-api-config.php');
     }
 
     /**
