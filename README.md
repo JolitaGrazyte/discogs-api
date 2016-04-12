@@ -1,11 +1,11 @@
 # A simple Discogs Api Wrapper that uses Guzzle6.
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/Discogs Api Wrapper.svg?style=flat-square)](https://packagist.org/packages/spatie/discogs-api-wrapper)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/jolita-grazyte/discogs-api-wrapper.svg?style=flat-square)](https://packagist.org/packages/jolita-grazyte/discogs-api-wrapper)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/spatie/Discogs Api Wrapper/master.svg?style=flat-square)](https://travis-ci.org/spatie/discogs-api-wrapper)
+[![Build Status](https://img.shields.io/travis/JolitaGrazyte/discogs-api-wrapper/master.svg?style=flat-square)](https://travis-ci.org/JolitaGrazyte/discogs-api-wrapper)
 [![SensioLabsInsight](https://img.shields.io/sensiolabs/i/xxxxxxxxx.svg?style=flat-square)](https://insight.sensiolabs.com/projects/xxxxxxxxx)
-[![Quality Score](https://img.shields.io/scrutinizer/g/spatie/Discogs Api Wrapper.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/discogs-api-wrapper)
-[![Total Downloads](https://img.shields.io/packagist/dt/spatie/Discogs Api Wrapper.svg?style=flat-square)](https://packagist.org/packages/spatie/discogs-api-wrapper)
+[![Quality Score](https://img.shields.io/scrutinizer/g/JolitaGrazyte/discogs-api-wrapper.svg?style=flat-square)](https://scrutinizer-ci.com/g/JolitaGrazyte/discogs-api-wrapper)
+[![Total Downloads](https://img.shields.io/packagist/dt/jolita-grazyte/discogs-api-wrapper.svg?style=flat-square)](https://packagist.org/packages/jolita-grazyte/discogs-api-wrapper)
 
 
 ## Installation
@@ -39,7 +39,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security
 
-If you discover any security related issues, please email jolita.grazyte@student.kdg.be instead of using the issue tracker.
+If you discover any security related issues, please email hello@jolitagrazyte.com instead of using the issue tracker.
 
 ## Credits
 
