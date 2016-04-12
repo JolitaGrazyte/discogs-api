@@ -13,7 +13,7 @@
 You can install the package via composer:
 
 ``` bash
-composer require jolitagrazyte/discogs-api-wrapper
+composer require jolita-grazyte/discogs-api-wrapper
 ```
 
 ## Usage
