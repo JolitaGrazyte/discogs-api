@@ -43,8 +43,9 @@ class DiscogsApi
     {
         $token = $this->config['token'];
 
-        return [
+        return  [
             'stream' => true,
+            'headers' => $this->config['headers'],
             'query' => array_add($query, 'token', $token)
         ];
     }

@@ -32,4 +32,24 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($nameMustBe, $label->name);
     }
 
+    /** @test */
+    public function it_can_get_label_releases()
+    {
+        $labelReleases = $this->discogs->get('label-releases', 1);
+        collect($labelReleases->releases)->take(4);
+
+    }
+
+    /** @test */
+    public function it_can_get_release_by_id()
+    {
+        $titleMustBe = 'Stockholm';
+        $artistMustBe = 'The Persuader';
+        $release = $this->discogs->get('release', 1);
+
+        $this->assertEquals($titleMustBe, $release->title);
+        $this->assertEquals($artistMustBe, $release->artists[0]->name);
+    }
+
+
 }
