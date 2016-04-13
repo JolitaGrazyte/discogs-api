@@ -47,6 +47,25 @@ class DiscogsApi
         return $this->get('releases', $id, [], false);
     }
 
+    public function masterRelease(string $id)
+    {
+        return $this->get("masters", $id, [], false);
+    }
+
+    public function userCollection(string $userName)
+    {
+        return $this->get("/users/{$userName}/collection/folders", '', [], false);
+    }
+
+    public function getMarketplaceListing(string $id)
+    {
+        return $this->get("/marketplace/listings/{$id}", '', [], true);
+    }
+    public function getUsersInventory(string $userName)
+    {
+        $this->get("/users/$userName}/inventory", '', [], false);
+    }
+
     public function orderWithId(string $id)
     {
         return $this->get("marketplace/orders/{$id}", '', [], true);
@@ -70,13 +89,13 @@ class DiscogsApi
         return $this->get('marketplace/orders', '', $query, true);
     }
 
-    public function search($keyword, $extraParams  = [])
+    public function search($keyword, SearchParameters $searchParameters)
     {
-        $query = ['q' => $keyword];
+        $query = [
+            'q' => $keyword,
+        ];
 
-        if(!empty($extraParams)){
-            $query = array_merge($query, $extraParams);
-        }
+        $query = collect($query)->merge($searchParameters->get())->toArray();
 
         return $this->get('database/search', '', $query, true);
     }
@@ -124,18 +143,13 @@ class DiscogsApi
         return "{$this->baseUrl}/{$path}";
     }
 
-    /**
-     * @param string $resource
-     * @param string $id
-     *
-     * @return string
-     */
     protected function path(string $resource, string $id = '')
     {
         if(empty($id))
         {
             return $resource;
         }
+
         return "{$resource}/{$id}";
     }
 

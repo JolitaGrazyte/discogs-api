@@ -3,6 +3,7 @@
 namespace Jolita\DiscogsApiWrapper\Test;
 
 use Jolita\DiscogsApiWrapper\DiscogsApi;
+use Jolita\DiscogsApiWrapper\SearchParameters;
 
 class DiscogsApiTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,6 +19,7 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_can_get_artist_by_id()
     {
+
         $nameMustBe = 'The Persuader';
         $artist = $this->discogs->artist(1);
 
@@ -65,6 +67,10 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_search_discogs_database()
     {
-        $searchResult = $this->discogs->search('MoWax');
+        $searchParameters = new SearchParameters();
+        $searchParameters->type('label');
+
+        $searchResult = $this->discogs->search('MoWax', $searchParameters);
+        dd($searchResult->results);
     }
 }

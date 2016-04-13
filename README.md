@@ -25,6 +25,7 @@ $artistReleases = $discogs->artistReleases(1);
 $label = $discogs->label(1);
 $labelReleases = $discogs->labelReleases(1);
 $releases = $discogs->releases(1);
+$releases = $discogs->search(1);
 ```
 
 ## Changelog
