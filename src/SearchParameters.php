@@ -40,7 +40,7 @@ class SearchParameters
 
     public function title(string $title)
     {
-        return $title = $title;
+        return $this->title = $title;
     }
 
     public function label(string $label)
