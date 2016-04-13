@@ -6,8 +6,6 @@ use GuzzleHttp\Client;
 
 class DiscogsApi
 {
-    protected $resources;
-    protected $config;
     protected $baseUrl;
     protected $token;
     protected $userAgent;
