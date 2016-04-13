@@ -21,6 +21,10 @@ composer require jolitagrazyte/discogs-api-wrapper
 ``` php
 $discogs = new DiscogsApi('disocgs-token', 'app-name');
 $artist = $discogs->artist(1);
+$artistReleases = $discogs->artistReleases(1);
+$label = $discogs->label(1);
+$labelReleases = $discogs->labelReleases(1);
+$releases = $discogs->releases(1);
 ```
 
 ## Changelog
