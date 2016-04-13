@@ -56,5 +56,15 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($artistMustBe, $release->artists[0]->name);
     }
 
+    /** @test */
+    public function it_can_get_orders()
+    {
+        $orders = $this->discogs->getMyOrders();
+    }
 
+    /** @test */
+    public function it_search_discogs_database()
+    {
+        $searchResult = $this->discogs->search('MoWax');
+    }
 }
