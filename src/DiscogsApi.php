@@ -9,22 +9,61 @@ class DiscogsApi
     protected $resources;
     protected $config;
     protected $baseUrl;
+    protected $token;
+    protected $userAgent;
 
-    public function __construct()
+    public function __construct($token, $userAgent = null)
     {
-        $this->resources = require(__DIR__.'../../config/discogs-resources.php');
-        $this->config = require(__DIR__.'../../config/discogs-api.php');
+        $this->userAgent = $userAgent;
+        $this->token = $token;
         $this->baseUrl = 'https://api.discogs.com';
     }
 
-    public function get(string $resource, string $id = '', array $query = [])
+    public function artist(string $id)
     {
-        $path = $this->path($id, $resource);
+        return $this->get('artists', $id, [], false);
+    }
 
+    public function artistReleases(string $artistId)
+    {
+        $resource = "artists/{$artistId}/releases";
+
+        return $this->get($resource, '', [], false);
+    }
+
+    public function label(string $id)
+    {
+        return $this->get('labels', $id, [], false);
+    }
+
+    public function labelReleases(string $labelId)
+    {
+        $resource = "labels/{$labelId}/releases";
+
+        return $this->get($resource, '', [], false);
+    }
+
+    public function release(string $id)
+    {
+        return $this->get('releases', $id, [], false);
+    }
+
+    public function orderWithId(string $id)
+    {
+        return $this->get('orders', $id, [], true);
+    }
+
+    public function myOrders()
+    {
+        return $this->get('orders', '', [], true);
+    }
+
+    public function get(string $resource, string $id = '', array $query = [], bool $mustAuthenticate = false)
+    {
         $content = (new Client())
             ->get(
-                $this->url($path),
-                $this->parameters($query)
+                $this->url($this->path($resource, $id)),
+                $this->parameters($query, $mustAuthenticate)
             )
             ->getBody()
             ->getContents();
@@ -32,21 +71,14 @@ class DiscogsApi
         return json_decode($content);
     }
 
-    protected function path(string $id, string $resource) : string
+    protected function parameters(array $query, bool $mustAuthenticate) : array
     {
-        $resourcePath =  $this->resources[$resource];
-
-        return !empty($id) ? str_replace('{id}', $id, $resourcePath) : $resourcePath;
-    }
-
-    protected function parameters(array $query) : array
-    {
-        $token = $this->config['token'];
-
         return  [
             'stream' => true,
-            'headers' => $this->config['headers'],
-            'query' => array_add($query, 'token', $token)
+            'headers' => ['User-Agent' => $this->userAgent ?: null],
+            'query' =>
+                $mustAuthenticate ?
+                    array_add($query, 'token', $this->token) : $query
         ];
     }
 
@@ -54,4 +86,20 @@ class DiscogsApi
     {
         return "{$this->baseUrl}/{$path}";
     }
+
+    /**
+     * @param string $resource
+     * @param string $id
+     *
+     * @return string
+     */
+    protected function path(string $resource, string $id = '')
+    {
+        if(empty($id))
+        {
+            return $resource;
+        }
+        return "{$resource}/{$id}";
+    }
+
 }

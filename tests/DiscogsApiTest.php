@@ -11,14 +11,15 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->discogs = (new DiscogsApi());
+        $this->discogs = (new DiscogsApi('', 'MyAmazingDiscogsApp/0.1'));
+
     }
 
     /** @test */
     public function it_can_get_artist_by_id()
     {
         $nameMustBe = 'The Persuader';
-        $artist = $this->discogs->get('artist', 1);
+        $artist = $this->discogs->artist(1);
 
         $this->assertEquals($nameMustBe, $artist->name);
     }
@@ -27,7 +28,7 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
     public function it_can_get_label_by_id()
     {
         $nameMustBe = 'Planet E';
-        $label = $this->discogs->get('label', 1);
+        $label = $this->discogs->label(1);
 
         $this->assertEquals($nameMustBe, $label->name);
     }
@@ -35,9 +36,13 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_can_get_label_releases()
     {
-        $labelReleases = $this->discogs->get('label-releases', 1);
-        collect($labelReleases->releases)->take(4);
+        $titleMustBe = 'DJ-Kicks';
+        $artistMustBe = 'Andrea Parker';
+        $labelReleases = $this->discogs->labelReleases(1);
+        $release = collect($labelReleases->releases)->first();
 
+        $this->assertEquals($titleMustBe, $release->title);
+        $this->assertEquals($artistMustBe, $release->artist);
     }
 
     /** @test */
@@ -45,7 +50,7 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
     {
         $titleMustBe = 'Stockholm';
         $artistMustBe = 'The Persuader';
-        $release = $this->discogs->get('release', 1);
+        $release = $this->discogs->release(1);
 
         $this->assertEquals($titleMustBe, $release->title);
         $this->assertEquals($artistMustBe, $release->artists[0]->name);
