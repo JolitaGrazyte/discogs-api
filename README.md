@@ -19,8 +19,8 @@ composer require jolitagrazyte/discogs-api-wrapper
 ## Usage
 
 ``` php
-$discogs = new DiscogsApi();
-echo $discogs->get('artist', 1);
+$discogs = new DiscogsApi('disocgs-token', 'app-name');
+$artist = $discogs->artist(1);
 ```
 
 ## Changelog
