@@ -1,11 +1,11 @@
 # A simple Discogs Api Wrapper that uses Guzzle6.
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/jolita-grazyte/discogs-api-wrapper.svg?style=flat-square)](https://packagist.org/packages/jolita-grazyte/discogs-api-wrapper)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/jolitagrazyte/discogs-api-wrapper.svg?style=flat-square)](https://packagist.org/packages/jolitagrazyte/discogs-api-wrapper)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/JolitaGrazyte/discogs-api-wrapper/master.svg?style=flat-square)](https://travis-ci.org/JolitaGrazyte/discogs-api-wrapper)
 [![SensioLabsInsight](https://img.shields.io/sensiolabs/i/xxxxxxxxx.svg?style=flat-square)](https://insight.sensiolabs.com/projects/xxxxxxxxx)
 [![Quality Score](https://img.shields.io/scrutinizer/g/JolitaGrazyte/discogs-api-wrapper.svg?style=flat-square)](https://scrutinizer-ci.com/g/JolitaGrazyte/discogs-api-wrapper)
-[![Total Downloads](https://img.shields.io/packagist/dt/jolita-grazyte/discogs-api-wrapper.svg?style=flat-square)](https://packagist.org/packages/jolita-grazyte/discogs-api-wrapper)
+[![Total Downloads](https://img.shields.io/packagist/dt/jolitagrazyte/discogs-api-wrapper.svg?style=flat-square)](https://packagist.org/packages/jolitagrazyte/discogs-api-wrapper)
 
 
 ## Installation
@@ -13,7 +13,7 @@
 You can install the package via composer:
 
 ``` bash
-composer require jolita-grazyte/discogs-api-wrapper
+composer require jolitagrazyte/discogs-api-wrapper
 ```
 
 ## Usage
