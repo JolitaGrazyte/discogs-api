@@ -46,7 +46,8 @@ $masterRelease = $discogs->masterRelease(string $id);
 
 ### Endpoints where authentication is required
 For the endpoints, where token is require, you must add your disocgs-token.
-You can obtain your token at https://www.discogs.com/settings/developers.
+
+You can obtain it at https://www.discogs.com/settings/developers.
 
 #### Orders
 ```php
@@ -57,9 +58,11 @@ $ordersMessages = $discogs->orderMessages(string $orderId);
 ```
 
 #### Search
-If you want to add some search parameters you must make a SearchParameters object. 
+If you want to add some search parameters you must make a SearchParameters object.
+
 You can then nest as many options as you want.  
 ```php
+$discogs = new DiscogsApi('disocgs-token', 'app-name');
 $searchParameters = new SearchParameters();
 $searchParameters->type('label')->year('1996');
 $searchResult = $discogs->search('MoWax', SearchParameters $searchParameters);
