@@ -14,7 +14,9 @@ class SearchParameters
     protected $format;
     protected $catno;
 
-    public function __construct(){}
+    public function __construct()
+    {
+    }
 
     public function get() : Collection
     {
@@ -25,10 +27,10 @@ class SearchParameters
             'genre' => $this->genre,
             'year' => $this->year,
             'format' => $this->format,
-            'catno' => $this->catno
+            'catno' => $this->catno,
         ];
 
-        return collect($fields)->reject(function($value){
+        return collect($fields)->reject(function ($value) {
             return is_null($value);
         });
     }
@@ -67,6 +69,4 @@ class SearchParameters
     {
         return $this->catno = $catno;
     }
-
-
 }

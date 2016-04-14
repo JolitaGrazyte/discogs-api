@@ -49,7 +49,7 @@ class DiscogsApi
 
     public function masterRelease(string $id)
     {
-        return $this->get("masters", $id, [], false);
+        return $this->get('masters', $id, [], false);
     }
 
     public function userCollection(string $userName)
@@ -83,7 +83,7 @@ class DiscogsApi
             'per_page' => $per_page ?: 50,
             'status' => $status ?: 'All',
             'sort' => $sort ?: 'id',
-            'sort_order' => $sort_order ?: 'desc'
+            'sort_order' => $sort_order ?: 'desc',
         ];
 
         return $this->get('marketplace/orders', '', $query, true);
@@ -115,14 +115,14 @@ class DiscogsApi
 
     protected function parameters(array $query, bool $mustAuthenticate) : array
     {
-        if($mustAuthenticate)
-        {
+        if ($mustAuthenticate) {
             $query = array_add($query, 'token', $this->token());
         }
+
         return  [
             'stream' => true,
             'headers' => ['User-Agent' => $this->userAgent ?: null],
-            'query' => $query
+            'query' => $query,
         ];
     }
 
@@ -130,8 +130,7 @@ class DiscogsApi
     {
         $token = $this->token;
 
-        if(empty($token))
-        {
+        if (empty($token)) {
             throw DiscogsApiException::tokenRequiredException();
         }
 
@@ -145,12 +144,10 @@ class DiscogsApi
 
     protected function path(string $resource, string $id = '')
     {
-        if(empty($id))
-        {
+        if (empty($id)) {
             return $resource;
         }
 
         return "{$resource}/{$id}";
     }
-
 }

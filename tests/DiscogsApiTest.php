@@ -13,13 +13,11 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->discogs = (new DiscogsApi('', 'MyAmazingDiscogsApp/0.1'));
-
     }
 
     /** @test */
     public function it_can_get_artist_by_id()
     {
-
         $nameMustBe = 'The Persuader';
         $artist = $this->discogs->artist(1);
 
