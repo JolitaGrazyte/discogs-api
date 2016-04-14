@@ -12,7 +12,7 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->discogs = (new DiscogsApi('ZQRaTRpjTUFVAQahFFvnCQQIvVNIhYsGoKoUHSxO', 'MyAmazingDiscogsApp/0.1'));
+        $this->discogs = (new DiscogsApi('', 'MyAmazingDiscogsApp/0.1'));
     }
 
     /** @test */
