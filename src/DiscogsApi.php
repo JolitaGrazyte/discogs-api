@@ -128,13 +128,11 @@ class DiscogsApi
 
     protected function token()
     {
-        $token = $this->token;
-
-        if (empty($token)) {
-            throw DiscogsApiException::tokenRequiredException();
+        if(!empty($this->token)){
+            return $this->token;
         }
 
-        return $token;
+        throw DiscogsApiException::tokenRequiredException();
     }
 
     protected function url(string $path) : string

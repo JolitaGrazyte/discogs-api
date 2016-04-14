@@ -8,6 +8,12 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/jolitagrazyte/discogs-api-wrapper.svg?style=flat-square)](https://packagist.org/packages/jolitagrazyte/discogs-api-wrapper)
 
 
+This package makes it easy to communicate with discogs-api.
+It is very simple to install and to use.
+You can use it with any php framework or just simply in your naked php application.
+However if you want to use it in Laravel framework, i'd suggest to also install jolitagrazyte/laravel-discogs package, 
+which provides a facade for even an easier way to play with it.
+
 ## Installation
 
 You can install the package via composer:
@@ -18,14 +24,30 @@ composer require jolitagrazyte/discogs-api-wrapper
 
 ## Usage
 
+### Endpoints with no authentication required
 ``` php
+$discogs = new DiscogsApi('', 'app-name');
+
+$artist = $discogs->artist('1');
+
+$artistReleases = $discogs->artistReleases('1');
+
+$label = $discogs->label('1');
+
+$labelReleases = $discogs->labelReleases('1');
+
+$releases = $discogs->releases('1');
+
+$masterRelease = $discogs->masterRelease(string $id);
+```
+
+### Endpoints where authentication is required
+```php
 $discogs = new DiscogsApi('disocgs-token', 'app-name');
-$artist = $discogs->artist(1);
-$artistReleases = $discogs->artistReleases(1);
-$label = $discogs->label(1);
-$labelReleases = $discogs->labelReleases(1);
-$releases = $discogs->releases(1);
-$releases = $discogs->search(1);
+
+$searchResult = $discogs->search('1');
+
+$orders = $discogs->getMyOrders();
 ```
 
 ## Changelog
