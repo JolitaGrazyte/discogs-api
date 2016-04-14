@@ -8,9 +8,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/jolitagrazyte/discogs-api-wrapper.svg?style=flat-square)](https://packagist.org/packages/jolitagrazyte/discogs-api-wrapper)
 
 
-This package makes it easy to communicate with discogs-api.
-
-It is very simple to install and to use.
+This package makes it easy to communicate with discogs-api. It is very simple to install and to use.
 
 You can use it with any php framework or just simply in your naked php application.
 
