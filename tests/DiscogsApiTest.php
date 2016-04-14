@@ -65,10 +65,10 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_search_discogs_database()
     {
-        $searchParameters = new SearchParameters();
-        $searchParameters->type('label');
+//        $searchParameters = new SearchParameters();
+//        $searchParameters->type('label');
 
-        $searchResult = $this->discogs->search('MoWax', $searchParameters);
+        $searchResult = $this->discogs->search('MoWax');
         dd($searchResult->results);
     }
 }

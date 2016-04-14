@@ -89,13 +89,15 @@ class DiscogsApi
         return $this->get('marketplace/orders', '', $query, true);
     }
 
-    public function search($keyword, SearchParameters $searchParameters)
+    public function search($keyword, SearchParameters $searchParameters = null)
     {
         $query = [
             'q' => $keyword,
         ];
 
-        $query = collect($query)->merge($searchParameters->get())->toArray();
+        if(!is_null($searchParameters)) {
+            $query = collect($query)->merge($searchParameters->get())->toArray();
+        }
 
         return $this->get('database/search', '', $query, true);
     }
