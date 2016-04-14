@@ -1,4 +1,4 @@
-# A simple php Discogs Api Wrapper that uses Guzzle6.
+# A simple php Discogs Api Wrapper.
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/jolitagrazyte/discogs-api-wrapper.svg?style=flat-square)](https://packagist.org/packages/jolitagrazyte/discogs-api-wrapper)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
@@ -8,7 +8,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/jolitagrazyte/discogs-api-wrapper.svg?style=flat-square)](https://packagist.org/packages/jolitagrazyte/discogs-api-wrapper)
 
 
-This package makes it easy to communicate with discogs-api. It is very simple to install and to use.
+This package makes it easy to communicate with discogs-api. It uses Guzzle6 and is very simple to install and to use.
 
 You can use it with any php framework or just simply in your naked php application.
 
@@ -26,6 +26,8 @@ composer require jolitagrazyte/discogs-api-wrapper
 ## Usage
 
 ### Endpoints with no authentication required
+
+For the endpoints, where token is not required, first argument can be easily left empty.
 ``` php
 $discogs = new DiscogsApi('', 'app-name');
 
@@ -43,10 +45,13 @@ $masterRelease = $discogs->masterRelease(string $id);
 ```
 
 ### Endpoints where authentication is required
+For the endpoints, where token is require, you must add your disocgs-token.
+You can get your token at https://www.discogs.com/settings/developers.
+
 ```php
 $discogs = new DiscogsApi('disocgs-token', 'app-name');
 
-$searchResult = $discogs->search('1');
+$searchResult = $discogs->search('MoWax');
 
 $orders = $discogs->getMyOrders();
 ```
