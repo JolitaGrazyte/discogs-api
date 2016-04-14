@@ -12,7 +12,7 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->discogs = (new DiscogsApi('', 'MyAmazingDiscogsApp/0.1'));
+        $this->discogs = (new DiscogsApi('ZQRaTRpjTUFVAQahFFvnCQQIvVNIhYsGoKoUHSxO', 'MyAmazingDiscogsApp/0.1'));
     }
 
     /** @test */
@@ -65,10 +65,10 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_search_discogs_database()
     {
-//        $searchParameters = new SearchParameters();
-//        $searchParameters->type('label');
+        $searchParameters = new SearchParameters();
+        $searchParameters->type('label')->format('lp')->year('1996');
 
         $searchResult = $this->discogs->search('MoWax');
-        dd($searchResult->results);
+//        dd($searchResult->results);
     }
 }

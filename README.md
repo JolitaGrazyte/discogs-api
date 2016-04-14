@@ -57,9 +57,11 @@ $ordersMessages = $discogs->orderMessages(string $orderId);
 ```
 
 #### Search
+If you want to add some search parameters you must make a SearchParameters object. 
+You can then nest as many options as you want.  
 ```php
 $searchParameters = new SearchParameters();
-$searchParameters->type('label');
+$searchParameters->type('label')->year('1996');
 $searchResult = $discogs->search('MoWax', SearchParameters $searchParameters);
 ```
 

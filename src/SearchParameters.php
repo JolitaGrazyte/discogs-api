@@ -37,36 +37,43 @@ class SearchParameters
 
     public function type(string $type)
     {
-        return $this->type = $type;
+        $this->type = $type;
+        return $this;
     }
 
     public function title(string $title)
     {
-        return $this->title = $title;
+        $this->title = $title;
+        return $this;
     }
 
     public function label(string $label)
     {
-        return $this->label = $label;
+        $this->label = $label;
+        return $this;
     }
 
     public function genre(string $genre)
     {
-        return $this->genre = $genre;
+        $this->genre = $genre;
+        return $this;
     }
 
     public function year(string  $year)
     {
-        return $this->year = $year;
+        $this->year = $year;
+        return $this;
     }
 
     public function format(string $format)
     {
-        return $this->format = $format;
+        $this->format = $format;
+        return $this;
     }
 
     public function catno(string $catno)
     {
-        return $this->catno = $catno;
+        $this->catno = $catno;
+        return $this;
     }
 }
