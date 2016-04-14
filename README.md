@@ -9,8 +9,11 @@
 
 
 This package makes it easy to communicate with discogs-api.
+
 It is very simple to install and to use.
+
 You can use it with any php framework or just simply in your naked php application.
+
 However if you want to use it in Laravel framework, i'd suggest to also install jolitagrazyte/laravel-discogs package, 
 which provides a facade for even an easier way to play with it.
 
