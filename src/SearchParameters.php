@@ -38,42 +38,49 @@ class SearchParameters
     public function type(string $type)
     {
         $this->type = $type;
+
         return $this;
     }
 
     public function title(string $title)
     {
         $this->title = $title;
+
         return $this;
     }
 
     public function label(string $label)
     {
         $this->label = $label;
+
         return $this;
     }
 
     public function genre(string $genre)
     {
         $this->genre = $genre;
+
         return $this;
     }
 
     public function year(string  $year)
     {
         $this->year = $year;
+
         return $this;
     }
 
     public function format(string $format)
     {
         $this->format = $format;
+
         return $this;
     }
 
     public function catno(string $catno)
     {
         $this->catno = $catno;
+
         return $this;
     }
 }

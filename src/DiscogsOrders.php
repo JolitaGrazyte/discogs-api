@@ -36,23 +36,23 @@ class DiscogsOrders extends DiscogsApi
 
     public function changeOrderStatus(string $orderId, string $status)
     {
-       return $this->postChanges($orderId, 'status', $status);
+        return $this->postChanges($orderId, 'status', $status);
     }
     public function addShipping($orderId, string $shipping)
     {
-       return $this->postChanges($orderId, 'shipping', $shipping);
+        return $this->postChanges($orderId, 'shipping', $shipping);
     }
 
     protected function postChanges(string $orderId, string $key, string $value)
     {
-        $resource = "marketplace/orders/";
+        $resource = 'marketplace/orders/';
 
         return (new Client())
             ->post($this->url($this->path($resource, $orderId)),
                 ['query' => [
                         $key => $value,
-                        'token' => $this->token()
-                    ]
+                        'token' => $this->token(),
+                    ],
                 ]
             );
     }

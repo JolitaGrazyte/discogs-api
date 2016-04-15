@@ -2,13 +2,8 @@
 
 namespace Jolita\DiscogsApiWrapper\Test;
 
-use Jolita\DiscogsApiWrapper\DiscogsInventory;
-use Jolita\DiscogsApiWrapper\DiscogsSearch;
-use Jolita\DiscogsApiWrapper\Discogs;
-use Jolita\DiscogsApiWrapper\DiscogsOrders;
 use Jolita\DiscogsApiWrapper\SearchParameters;
 use Jolita\DiscogsApiWrapper\Exceptions\DiscogsApiException;
-
 
 class DiscogsApiTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,8 +18,7 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
         $this->mock->expects($this->once())->method('artist')
             ->will($this->returnValue(json_encode(['name' => $nameMustBe])));
 
-        $this->assertEquals($nameMustBe, json_decode($this->mock->artist("1"))->name);
-
+        $this->assertEquals($nameMustBe, json_decode($this->mock->artist('1'))->name);
     }
 
     /** @test */
@@ -33,9 +27,9 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
         $nameMustBe = 'Planet E';
         $this->mock = $this->getMock('Jolita\DiscogsApiWrapper\Discogs');
         $this->mock->expects($this->once())->method('label')
-            ->will($this->returnValue(json_encode(['name' => $nameMustBe])));;
+            ->will($this->returnValue(json_encode(['name' => $nameMustBe])));
 
-        $this->assertEquals($nameMustBe, json_decode($this->mock->label("1"))->name);
+        $this->assertEquals($nameMustBe, json_decode($this->mock->label('1'))->name);
     }
 
     /** @test */
@@ -45,7 +39,7 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
         $artistMustBe = 'Andrea Parker';
         $this->mock = $this->getMock('Jolita\DiscogsApiWrapper\Discogs');
         $this->mock->expects($this->any())->method('labelReleases')
-            ->will($this->returnValue(json_encode(['title' => $titleMustBe,'artist' => $artistMustBe])));
+            ->will($this->returnValue(json_encode(['title' => $titleMustBe, 'artist' => $artistMustBe])));
 
         $this->assertEquals($titleMustBe, json_decode($this->mock->labelReleases(1))->title);
         $this->assertEquals($artistMustBe, json_decode($this->mock->labelReleases(1))->artist);
@@ -59,7 +53,7 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
 
         $this->mock = $this->getMock('Jolita\DiscogsApiWrapper\Discogs');
         $this->mock->expects($this->any())->method('release')
-            ->will($this->returnValue(json_encode(['title' => $titleMustBe,'artist' => $artistMustBe])));
+            ->will($this->returnValue(json_encode(['title' => $titleMustBe, 'artist' => $artistMustBe])));
 
         $this->assertEquals($titleMustBe, json_decode($this->mock->release(1))->title);
         $this->assertEquals($artistMustBe, json_decode($this->mock->release(1))->artist);
@@ -108,7 +102,6 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
 
         $this->mock->method('search')->will($this->throwException(DiscogsApiException::tokenRequiredException()));
 
-        $this->mock->search("something");
+        $this->mock->search('something');
     }
-
 }

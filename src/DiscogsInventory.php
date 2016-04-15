@@ -13,12 +13,12 @@ class DiscogsInventory extends DiscogsApi
 
     public function getMyInventory(string $userName)
     {
-       return $this->get("users/{$userName}/inventory", '', [], true);
+        return $this->get("users/{$userName}/inventory", '', [], true);
     }
 
     public function deleteListing(string $listingId)
     {
-      return $this->delete("marketplace/listings/", $listingId);
+        return $this->delete('marketplace/listings/', $listingId);
     }
 
     public function delete(string $resource, string $listingId)

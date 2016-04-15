@@ -2,7 +2,6 @@
 
 namespace Jolita\DiscogsApiWrapper;
 
-
 class DiscogsSearch extends DiscogsApi
 {
     public function __construct($token, $userAgent)
@@ -16,11 +15,10 @@ class DiscogsSearch extends DiscogsApi
             'q' => $keyword,
         ];
 
-        if(!is_null($searchParameters)) {
+        if (!is_null($searchParameters)) {
             $query = collect($query)->merge($searchParameters->get())->toArray();
         }
 
         return $this->get('database/search', '', $query, true);
     }
-
 }

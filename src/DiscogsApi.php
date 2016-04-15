@@ -44,7 +44,7 @@ class DiscogsApi
 
     protected function token()
     {
-        if(!is_null($this->token)){
+        if (!is_null($this->token)) {
             return $this->token;
         }
 
