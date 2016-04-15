@@ -8,6 +8,6 @@ class DiscogsApiException extends Exception
 {
     public static function tokenRequiredException()
     {
-        return new static('This endpoint needs authentication. Discogs token is required.');
+        return new static('This endpoint requires authentication. Discogs token is required.');
     }
 }

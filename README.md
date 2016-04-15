@@ -29,42 +29,84 @@ composer require jolitagrazyte/discogs-api-wrapper
 
 For the endpoints, where token is not required, first argument can be easily left empty.
 ``` php
-$discogs = new DiscogsApi('', 'app-name');
+$discogs = new Discogs();
 
+//get artist with id 1
 $artist = $discogs->artist('1');
 
+//get releases of the artist with id 1
 $artistReleases = $discogs->artistReleases('1');
 
+//get label with id 1 
 $label = $discogs->label('1');
 
+//get releases of the label with id 1
 $labelReleases = $discogs->labelReleases('1');
 
+//get release with id 1
 $releases = $discogs->releases('1');
 
+//get master release with id 1
 $masterRelease = $discogs->masterRelease(string $id);
 ```
 
 ### Endpoints where authentication is required
-For the endpoints, where token is require, you must add your disocgs-token.
+For the endpoints, where token is required, you must add your disocgs-token.
 
 You can obtain it at https://www.discogs.com/settings/developers.
 
 #### Orders
+To get your orders paginated (default - 50 per page), you can use getMyOrders()-method.
+
+If you need, you can add some optional parameters: page, per_page (with a max of 100), order status, sort & sort order.
+
+If you need more information about the parameters you can read about it at https://www.discogs.com/developers.
+
 ```php
-$discogs = new DiscogsApi('disocgs-token', 'app-name');
+$discogs = new DiscogsOrders('disocgs-token', 'app-name');
 $orders = $discogs->getMyOrders();
+$ordersWithOptions = $discogs->getMyOrders("3", "25", "created", "desc");
+```
+
+For getting one specific order:
+
+``` php
+$discogs = new DiscogsOrders('disocgs-token', 'app-name');
+
 $order = $discogs->orderWithId(string $id);
+```
+
+It is also possible to retrieve the messages of an order:
+```php
+$discogs = new DiscogsOrders('disocgs-token', 'app-name');
+
 $ordersMessages = $discogs->orderMessages(string $orderId);
 ```
 
+For changing the status of the order or adding the shipping to the order.
+  
+```php
+$discogs = new DiscogsOrders('disocgs-token', 'app-name');
+
+$orders = $discogs->changeOrderStatus($orderId, $status);
+
+$order = $discogs->addShipping($orderId, string $shipping);
+```
+ 
+
 #### Search
+
 If you want to add some search parameters you must make a SearchParameters object.
 
-You can then nest as many options as you want.  
+You can then chain as many options as you want.
+  
 ```php
-$discogs = new DiscogsApi('disocgs-token', 'app-name');
+$discogs = new DiscogsSearch('disocgs-token', 'app-name');
+
 $searchParameters = new SearchParameters();
-$searchParameters->type('label')->year('1996');
+
+$searchParameters->format('LP')->year('1996');
+
 $searchResult = $discogs->search('MoWax', SearchParameters $searchParameters);
 ```
 
