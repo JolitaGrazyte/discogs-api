@@ -100,9 +100,8 @@ $order = $discogs->addShipping($orderId, string $shipping);
 
 #### Search
 
-If you want to add some search parameters you must make a SearchParameters object.
-
-You can then chain as many options as you want.
+If you want to add some extra search parameters you can do it by first creating a SearchParameters object
+and then chaining as many options as you want.
   
 ```php
 $discogs = new DiscogsApi('disocgs-token', 'app-name');
