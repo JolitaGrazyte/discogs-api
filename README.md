@@ -72,11 +72,11 @@ $orders = $discogs->getMyOrders();
 $ordersWithOptions = $discogs->getMyOrders("3", "25", "created", "desc");
 ```
 
-For getting one specific order:
-
+For getting one specific order by id:
 ``` php
 $discogs = new DiscogsApi('disocgs-token', 'app-name');
 
+//get order with id
 $order = $discogs->orderWithId('123');
 ```
 
@@ -88,12 +88,13 @@ $ordersMessages = $discogs->orderMessages('123');
 ```
 
 For changing the status of the order or adding the shipping to the order.
-  
 ```php
 $discogs = new DiscogsApi('disocgs-token', 'app-name');
 
+//change order status to 'Shipped'
 $orders = $discogs->changeOrderStatus('123', 'Shipped');
 
+//add shipping to a order
 $order = $discogs->addShipping('123', '12.60');
 ```
  
@@ -106,10 +107,13 @@ first creating a SearchParameters object and then chaining as many options as yo
 ```php
 $discogs = new DiscogsApi('disocgs-token', 'app-name');
 
+// create a SearchParameters object
 $searchParameters = new SearchParameters();
 
+//chain some search paramater
 $searchParameters->format('LP')->year('1996');
 
+//do a search request with query = 'MoWax' and passing the SearchParameters object
 $searchResult = $discogs->search('MoWax', SearchParameters $searchParameters);
 ```
 
