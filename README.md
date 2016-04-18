@@ -84,6 +84,7 @@ It is also possible to retrieve the messages of an order:
 ```php
 $discogs = new DiscogsApi('disocgs-token', 'app-name');
 
+//get messages  of an order with id
 $ordersMessages = $discogs->orderMessages('123');
 ```
 
