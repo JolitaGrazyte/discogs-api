@@ -29,7 +29,7 @@ composer require jolitagrazyte/discogs-api-wrapper
 
 For the endpoints, where token is not required, first argument can be easily left empty.
 ``` php
-$discogs = new Discogs();
+$discogs = new DiscogsApi();
 
 //get artist with id 1
 $artist = $discogs->artist('1');
@@ -63,22 +63,26 @@ If you need, you can add some optional parameters: page, per_page (with a max of
 If you need more information about the parameters you can read about it at https://www.discogs.com/developers.
 
 ```php
-$discogs = new DiscogsOrders('disocgs-token', 'app-name');
+$discogs = new DiscogsApi('disocgs-token', 'app-name');
+
+//get orders
 $orders = $discogs->getMyOrders();
+
+//get orders with parameters
 $ordersWithOptions = $discogs->getMyOrders("3", "25", "created", "desc");
 ```
 
 For getting one specific order:
 
 ``` php
-$discogs = new DiscogsOrders('disocgs-token', 'app-name');
+$discogs = new DiscogsApi('disocgs-token', 'app-name');
 
 $order = $discogs->orderWithId(string $id);
 ```
 
 It is also possible to retrieve the messages of an order:
 ```php
-$discogs = new DiscogsOrders('disocgs-token', 'app-name');
+$discogs = new DiscogsApi('disocgs-token', 'app-name');
 
 $ordersMessages = $discogs->orderMessages(string $orderId);
 ```
@@ -86,7 +90,7 @@ $ordersMessages = $discogs->orderMessages(string $orderId);
 For changing the status of the order or adding the shipping to the order.
   
 ```php
-$discogs = new DiscogsOrders('disocgs-token', 'app-name');
+$discogs = new DiscogsApi('disocgs-token', 'app-name');
 
 $orders = $discogs->changeOrderStatus($orderId, $status);
 
@@ -101,7 +105,7 @@ If you want to add some search parameters you must make a SearchParameters objec
 You can then chain as many options as you want.
   
 ```php
-$discogs = new DiscogsSearch('disocgs-token', 'app-name');
+$discogs = new DiscogsApi('disocgs-token', 'app-name');
 
 $searchParameters = new SearchParameters();
 

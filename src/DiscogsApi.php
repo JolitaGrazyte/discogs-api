@@ -19,7 +19,6 @@ class DiscogsApi
         $this->client = $client;
     }
 
-
     public function artist(string $id)
     {
         return $this->get('artists', $id);
@@ -158,14 +157,13 @@ class DiscogsApi
     protected function parameters(array $query, bool $mustAuthenticate) : array
     {
         if ($mustAuthenticate) {
-
             $query = array_add($query, 'token', $this->token());
         }
 
         return  [
 //            'stream' => true,
 //            'headers' => ['User-Agent' => $this->userAgent ?: null],
-            'query' => $query
+            'query' => $query,
         ];
     }
 

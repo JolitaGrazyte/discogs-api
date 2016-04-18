@@ -6,20 +6,22 @@ use GuzzleHttp\Client;
 use Jolita\DiscogsApiWrapper\DiscogsApi;
 use Jolita\DiscogsApiWrapper\Exceptions\DiscogsApiException;
 use Mockery;
+use Jolita\DiscogsApiWrapper\SearchParameters;
 
 class DiscogsApiTest extends \PHPUnit_Framework_TestCase
 {
     protected $token;
-    protected $mock;
     protected $client;
     protected $discogs;
 
     public function setUp()
     {
         parent::setUp();
+        $this->client = Mockery::mock(Client::class);
     }
 
-    public function tearDown() {
+    public function tearDown()
+    {
         Mockery::close();
     }
 
@@ -28,15 +30,14 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
     {
         $nameMustBe = 'The Persuader';
 
-        $this->client = Mockery::mock(Client::class);
         $this->client
-            ->shouldReceive('get')->with('artists', '1');
+            ->shouldReceive('get->getBody->getContents')
+            ->once()
+            ->andReturn(json_encode(['name' => $nameMustBe]));
 
         $this->discogs = new DiscogsApi($this->client);
-        $output = $this->discogs->artist(1);
-//        dd($output);
+        $output = $this->discogs->artist('1')->name;
 
-//        $this->assertEquals($nameMustBe, json_decode($this->mock->artist('1'))->name);
         $this->assertEquals($nameMustBe, $output);
     }
 
@@ -45,10 +46,15 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
     {
         $nameMustBe = 'Planet E';
 
-        $this->mock->expects($this->once())->method('label')
-            ->will($this->returnValue(json_encode(['name' => $nameMustBe])));
+        $this->client
+            ->shouldReceive('get->getBody->getContents')
+            ->once()
+            ->andReturn(json_encode(['name' => $nameMustBe]));
 
-        $this->assertEquals($nameMustBe, json_decode($this->mock->label('1'))->name);
+        $this->discogs = new DiscogsApi($this->client);
+        $output = $this->discogs->label('1')->name;
+
+        $this->assertEquals($nameMustBe, $output);
     }
 
     /** @test */
@@ -57,11 +63,17 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
         $titleMustBe = 'DJ-Kicks';
         $artistMustBe = 'Andrea Parker';
 
-        $this->mock->expects($this->any())->method('labelReleases')
-            ->will($this->returnValue(json_encode(['title' => $titleMustBe, 'artist' => $artistMustBe])));
+        $this->client
+            ->shouldReceive('get->getBody->getContents')
+            ->times(2)
+            ->andReturn(json_encode(['title' => $titleMustBe, 'artist' => $artistMustBe]));
 
-        $this->assertEquals($titleMustBe, json_decode($this->mock->labelReleases(1))->title);
-        $this->assertEquals($artistMustBe, json_decode($this->mock->labelReleases(1))->artist);
+        $this->discogs = new DiscogsApi($this->client);
+        $artist = $this->discogs->labelReleases('1')->artist;
+        $title = $this->discogs->labelReleases('1')->title;
+
+        $this->assertEquals($titleMustBe, $title);
+        $this->assertEquals($artistMustBe, $artist);
     }
 
     /** @test */
@@ -70,60 +82,80 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
         $titleMustBe = 'Stockholm';
         $artistMustBe = 'The Persuader';
 
-        $this->mock->expects($this->any())->method('release')
-            ->will($this->returnValue(json_encode(['title' => $titleMustBe, 'artist' => $artistMustBe])));
+        $this->client
+            ->shouldReceive('get->getBody->getContents')
+            ->times(2)
+            ->andReturn(json_encode(['title' => $titleMustBe, 'artist' => $artistMustBe]));
 
-        $this->assertEquals($titleMustBe, json_decode($this->mock->release(1))->title);
-        $this->assertEquals($artistMustBe, json_decode($this->mock->release(1))->artist);
+        $this->discogs = new DiscogsApi($this->client);
+        $artist = $this->discogs->release('1')->artist;
+        $title = $this->discogs->release('1')->title;
+
+
+        $this->assertEquals($titleMustBe, $title);
+        $this->assertEquals($artistMustBe, $artist);
     }
 
     /** @test */
     public function it_can_get_inventory()
     {
-        $this->mock = $this->getMock(DiscogsApi::class, ['getMyInventory'], ['12345', '']);
+        $usernameMustBe = 'wgwstore';
 
-        $this->mock->expects($this->once())->method('getMyInventory');
+        $this->client
+            ->shouldReceive('get->getBody->getContents')
+            ->once()
+            ->andReturn(json_encode(['listings' => ['seller' => ['username' => $usernameMustBe]]]));
 
-        $this->mock->getMyInventory('wgwstore');
+        $this->discogs = new DiscogsApi($this->client, '12345');
+        $output = $this->discogs->getMyInventory('wgwstore')->listings->seller->username;
+
+        $this->assertEquals($usernameMustBe, $output);
     }
 
     /** @test */
     public function it_can_get_orders()
     {
-        $this->mock = $this->getMock(DiscogsApi::class, ['getMyOrders'], ['12345', 'MyApp']);
+        $this->client
+            ->shouldReceive('get->getBody->getContents')
+            ->times(2)
+            ->andReturn(json_encode(['pagination' => ['items' => 1234], 'orders' =>['items' => ['1234', '2', '3']]]));
 
-        $this->mock->expects($this->once())->method('getMyOrders');
+        $this->discogs = new DiscogsApi($this->client, '12345');
+        $itemsTotal = $this->discogs->getMyOrders()->pagination->items;
+        $orderItems = $this->discogs->getMyOrders()->orders->items;
 
-        $this->mock->getMyOrders();
+        $this->assertEquals($itemsTotal, 1234);
+        $this->assertEquals($orderItems, ['1234', '2', '3']);
     }
 
     /** @test */
     public function it_search_discogs_database()
     {
-        $this->mock = $this->getMock(DiscogsApi::class, ['search'], ['12345', 'MyApp']);
+        $expectedStyles = ['Downtempo', 'Trip Hop'];
 
-        $this->mock->expects($this->once())->method('search');
+        $this->client
+            ->shouldReceive('get->getBody->getContents')
+            ->once()
+            ->andReturn(json_encode(['results' => ['style' => $expectedStyles]]));
 
+        $this->discogs = new DiscogsApi($this->client, '12345');
         $searchParameters = new SearchParameters();
-
         $searchParameters->type('release')->format('LP')->year('1996');
+        $output = $this->discogs->search('MoWax', $searchParameters)->results->style;
 
-        $this->mock->search('MoWax', $searchParameters);
+        $this->assertEquals($expectedStyles, $output);
     }
 
     /** @test */
     public function it_throws_exception_if_no_token_provided()
     {
-        $this->mock = $this->getMock(DiscogsApi::class, ['search', 'parameters', 'token'], [null, 'MyApp']);
+        $this->client
+            ->shouldReceive('get->getBody->getContents');
 
-        $class = new ReflectionClass(DiscogsApi::class);
-        $method = $class->getMethod('token');
-        $method->setAccessible(true);
+        $this->discogs = new DiscogsApi($this->client);
+        $output = $this->expectException(DiscogsApiException::class);
+        $this->discogs->search('keyword');
 
-        $this->mock->expects($this->once())->method('search');
-
-        $this->expectException(DiscogsApiException::class);
-
-        $this->mock->search('something')->token();
+        $this->assertTrue($output);
     }
 }
