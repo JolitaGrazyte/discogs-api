@@ -161,6 +161,7 @@ class DiscogsApi
         }
 
         return  [
+            'stream' => true,
             'headers' => ['User-Agent' => $this->userAgent ?: null],
             'query' => $query,
         ];
