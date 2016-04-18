@@ -47,7 +47,7 @@ $labelReleases = $discogs->labelReleases('1');
 $releases = $discogs->releases('1');
 
 //get master release with id 1
-$masterRelease = $discogs->masterRelease(string $id);
+$masterRelease = $discogs->masterRelease('1');
 ```
 
 ### Endpoints where authentication is required
