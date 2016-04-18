@@ -91,7 +91,6 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
         $artist = $this->discogs->release('1')->artist;
         $title = $this->discogs->release('1')->title;
 
-
         $this->assertEquals($titleMustBe, $title);
         $this->assertEquals($artistMustBe, $artist);
     }
@@ -118,7 +117,7 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
         $this->client
             ->shouldReceive('get->getBody->getContents')
             ->times(2)
-            ->andReturn(json_encode(['pagination' => ['items' => 1234], 'orders' =>['items' => ['1234', '2', '3']]]));
+            ->andReturn(json_encode(['pagination' => ['items' => 1234], 'orders' => ['items' => ['1234', '2', '3']]]));
 
         $this->discogs = new DiscogsApi($this->client, '12345');
         $itemsTotal = $this->discogs->getMyOrders()->pagination->items;
