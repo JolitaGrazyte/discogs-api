@@ -77,14 +77,14 @@ For getting one specific order:
 ``` php
 $discogs = new DiscogsApi('disocgs-token', 'app-name');
 
-$order = $discogs->orderWithId(string $id);
+$order = $discogs->orderWithId('123');
 ```
 
 It is also possible to retrieve the messages of an order:
 ```php
 $discogs = new DiscogsApi('disocgs-token', 'app-name');
 
-$ordersMessages = $discogs->orderMessages(string $orderId);
+$ordersMessages = $discogs->orderMessages('123');
 ```
 
 For changing the status of the order or adding the shipping to the order.
@@ -92,9 +92,9 @@ For changing the status of the order or adding the shipping to the order.
 ```php
 $discogs = new DiscogsApi('disocgs-token', 'app-name');
 
-$orders = $discogs->changeOrderStatus($orderId, $status);
+$orders = $discogs->changeOrderStatus('123', 'Shipped');
 
-$order = $discogs->addShipping($orderId, string $shipping);
+$order = $discogs->addShipping('123', '12.60');
 ```
  
 
