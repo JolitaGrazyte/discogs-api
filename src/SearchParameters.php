@@ -2,8 +2,6 @@
 
 namespace Jolita\DiscogsApiWrapper;
 
-use Illuminate\Support\Collection;
-
 class SearchParameters
 {
     protected $type;
