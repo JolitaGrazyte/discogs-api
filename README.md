@@ -95,7 +95,7 @@ $discogs = new DiscogsApi('disocgs-token', 'app-name');
 //change order status to 'Shipped'
 $orders = $discogs->changeOrderStatus('123', 'Shipped');
 
-//add shipping to a order
+//add shipping to an order with id
 $order = $discogs->addShipping('123', '12.60');
 ```
  
