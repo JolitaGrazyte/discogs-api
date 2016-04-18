@@ -157,4 +157,48 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($output);
     }
+
+    /** @test */
+    public function it_can_post_order_status_to_discogs()
+    {
+        $this->client
+            ->shouldReceive('post')->times(2)->andReturn((object) ['reasonPhrase' => 'OK','statusCode' => 200]);
+        $this->discogs = new DiscogsApi($this->client, '12345');
+        $reasonPhrase = $this->discogs->changeOrderStatus('123', 'Cancelled (Item Unavailable)')->reasonPhrase;
+        $statusCode = $this->discogs->changeOrderStatus('123', 'Cancelled (Item Unavailable)')->statusCode;
+
+        $this->assertEquals($reasonPhrase, 'OK');
+        $this->assertEquals($statusCode, 200);
+
+    }
+
+    /** @test */
+    public function it_can_post_shipping_to_discogs()
+    {
+        $this->client
+            ->shouldReceive('post')->times(2)->andReturn((object) ['reasonPhrase' => 'OK','statusCode' => 200]);
+        $this->discogs = new DiscogsApi($this->client, '12345');
+        $reasonPhrase = $this->discogs->addShipping('123', '12.60')->reasonPhrase;
+        $statusCode = $this->discogs->addShipping('123', '12.60')->statusCode;
+
+        $this->assertEquals($reasonPhrase, 'OK');
+        $this->assertEquals($statusCode, 200);
+
+    }
+
+    /** @test */
+    public function it_can_delete_listing_from_inventory()
+    {
+        $this->client
+            ->shouldReceive('delete')->times(2)->andReturn((object) ['reasonPhrase' => 'OK','statusCode' => 200]);
+        $this->discogs = new DiscogsApi($this->client, '12345');
+        $reasonPhrase = $this->discogs->deleteListing('123')->reasonPhrase;
+        $statusCode = $this->discogs->deleteListing('123')->statusCode;
+
+        $this->assertEquals($reasonPhrase, 'OK');
+        $this->assertEquals($statusCode, 200);
+
+    }
+
+
 }
