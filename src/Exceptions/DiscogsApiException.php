@@ -1,6 +1,6 @@
 <?php
 
-namespace Jolita\DiscogsApiWrapper\Exceptions;
+namespace Jolita\DiscogsApi\Exceptions;
 
 use Exception;
 

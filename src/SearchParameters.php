@@ -1,21 +1,36 @@
 <?php
 
-namespace Jolita\DiscogsApiWrapper;
+namespace Jolita\DiscogsApi;
 
 use Illuminate\Support\Collection;
 
 class SearchParameters
 {
+    /** @var string */
     protected $type;
+
+    /** @var string */
     protected $title;
+
+    /** @var string */
     protected $label;
+
+    /** @var string */
     protected $genre;
+
+    /** @var string */
     protected $year;
+
+    /** @var string */
     protected $format;
+
+    /** @var string */
     protected $catno;
 
-    public function __construct()
+
+    public static function make()
     {
+        return (new static());
     }
 
     public function get() : Collection
@@ -35,51 +50,51 @@ class SearchParameters
         });
     }
 
-    public function type(string $type)
+    public function settype(string $type)
     {
         $this->type = $type;
 
         return $this;
     }
 
-    public function title(string $title)
+    public function settitle(string $title)
     {
         $this->title = $title;
 
         return $this;
     }
 
-    public function label(string $label)
+    public function setLabel(string $label)
     {
         $this->label = $label;
 
         return $this;
     }
 
-    public function genre(string $genre)
+    public function setGenre(string $genre)
     {
         $this->genre = $genre;
 
         return $this;
     }
 
-    public function year(string  $year)
+    public function setYear(string  $year)
     {
         $this->year = $year;
 
         return $this;
     }
 
-    public function format(string $format)
+    public function setFormat(string $format)
     {
         $this->format = $format;
 
         return $this;
     }
 
-    public function catno(string $catno)
+    public function setCatalogNumber(string $catalogNumber)
     {
-        $this->catno = $catno;
+        $this->catno = $catalogNumber;
 
         return $this;
     }

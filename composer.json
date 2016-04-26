@@ -25,12 +25,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Jolita\\DiscogsApiWrapper\\": "src"
+            "Jolita\\DiscogsApi\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Jolita\\DiscogsApiWrapper\\Test\\": "tests"
+            "Jolita\\DiscogsApi\\Test\\": "tests"
         }
     },
     "scripts": {

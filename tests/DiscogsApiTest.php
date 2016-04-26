@@ -1,12 +1,12 @@
 <?php
 
-namespace Jolita\DiscogsApiWrapper\Test;
+namespace Jolita\DiscogsApi\Test;
 
 use GuzzleHttp\Client;
-use Jolita\DiscogsApiWrapper\DiscogsApi;
-use Jolita\DiscogsApiWrapper\Exceptions\DiscogsApiException;
+use Jolita\DiscogsApi\DiscogsApi;
+use Jolita\DiscogsApi\Exceptions\DiscogsApiException;
 use Mockery;
-use Jolita\DiscogsApiWrapper\SearchParameters;
+use Jolita\DiscogsApi\SearchParameters;
 
 class DiscogsApiTest extends \PHPUnit_Framework_TestCase
 {
@@ -138,8 +138,7 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
             ->andReturn(json_encode(['results' => ['style' => $expectedStyles]]));
 
         $this->discogs = new DiscogsApi($this->client, '12345');
-        $searchParameters = new SearchParameters();
-        $searchParameters->type('release')->format('LP')->year('1996');
+        $searchParameters = SearchParameters::make()->setType('release')->setFormat('LP')->setYear('1996');
         $output = $this->discogs->search('MoWax', $searchParameters)->results->style;
 
         $this->assertEquals($expectedStyles, $output);

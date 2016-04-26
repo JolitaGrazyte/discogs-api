@@ -1,4 +1,4 @@
-# A simple php Discogs Api Wrapper.
+# A simple php Discogs Api.
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/jolitagrazyte/discogs-api-wrapper.svg?style=flat-square)](https://packagist.org/packages/jolitagrazyte/discogs-api-wrapper)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
@@ -8,11 +8,11 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/jolitagrazyte/discogs-api-wrapper.svg?style=flat-square)](https://packagist.org/packages/jolitagrazyte/discogs-api-wrapper)
 
 
-This package makes it easy to communicate with discogs-api. It uses Guzzle6 and is very simple to install and to use.
+This package makes it easy to communicate with discogs-api. It uses [Guzzle 6](https://github.com/guzzle/guzzle) and is very simple to install and to use.
 
-You can use it with any php framework or just simply in your naked php application.
+You can use it with any PHP framework or just simply in your naked PHP application.
 
-However if you want to use it in Laravel framework, i'd suggest to also install jolitagrazyte/laravel-discogs package, 
+However if you want to use it in Laravel framework, i'd suggest to also install [jolitagrazyte/laravel-discogs package](https://github.com/JolitaGrazyte/laravel-discogs), 
 which provides a facade for even an easier way to play with it.
 
 ## Installation
@@ -20,7 +20,7 @@ which provides a facade for even an easier way to play with it.
 You can install the package via composer:
 
 ``` bash
-composer require jolitagrazyte/discogs-api-wrapper
+composer require jolitagrazyte/discogs-api
 ```
 
 ## Usage
@@ -51,30 +51,32 @@ $masterRelease = $discogs->masterRelease('1');
 ```
 
 ### Endpoints where authentication is required
-For the endpoints, where token is required, you must add your disocgs-token.
+For the endpoints, where token is required, you must add your discogs-token.
 
 You can obtain it at https://www.discogs.com/settings/developers.
 
 #### Orders
-To get your orders paginated (default - 50 per page), you can use getMyOrders()-method.
+To get your orders, you can use getMyOrders()-method.
 
-If you need, you can add some optional parameters: page, per_page (with a max of 100), order status, sort & sort order.
+Orders list comes paginated with a default - 50 orders per page, but it can be changed. 
+
+If you need, you can add some optional parameters: `page`, `perPage` (with a max of 100), order status as  `status`, `sort` and `sortOrder`.
 
 If you need more information about the parameters you can read about it at https://www.discogs.com/developers.
 
 ```php
-$discogs = new DiscogsApi('disocgs-token', 'app-name');
+$discogs = new DiscogsApi('discogs-token', 'app-name');
 
 //get orders
 $orders = $discogs->getMyOrders();
 
 //get orders with parameters
-$ordersWithOptions = $discogs->getMyOrders("3", "25", "created", "desc");
+$ordersWithOptions = $discogs->getMyOrders(3, 25, "created", "desc");
 ```
 
 For getting one specific order by id:
 ``` php
-$discogs = new DiscogsApi('disocgs-token', 'app-name');
+$discogs = new DiscogsApi('discogs-token', 'app-name');
 
 //get order with id
 $order = $discogs->orderWithId('123');
@@ -82,7 +84,7 @@ $order = $discogs->orderWithId('123');
 
 It is also possible to retrieve the messages of an order:
 ```php
-$discogs = new DiscogsApi('disocgs-token', 'app-name');
+$discogs = new DiscogsApi('discogs-token', 'app-name');
 
 //get messages  of an order with id
 $ordersMessages = $discogs->orderMessages('123');
@@ -90,7 +92,7 @@ $ordersMessages = $discogs->orderMessages('123');
 
 For changing the status of the order or adding the shipping to the order.
 ```php
-$discogs = new DiscogsApi('disocgs-token', 'app-name');
+$discogs = new DiscogsApi('discogs-token', 'app-name');
 
 //change order status to 'Shipped'
 $orders = $discogs->changeOrderStatus('123', 'Shipped');
@@ -98,7 +100,7 @@ $orders = $discogs->changeOrderStatus('123', 'Shipped');
 //add shipping to an order with id
 $order = $discogs->addShipping('123', '12.60');
 ```
- 
+
 
 #### Search
 
@@ -106,16 +108,13 @@ If you want to add some extra search parameters you can do it by
 first creating a SearchParameters object and then chaining as many options as you want.
   
 ```php
-$discogs = new DiscogsApi('disocgs-token', 'app-name');
+$discogs = new DiscogsApi('discogs-token', 'app-name');
 
-// create a SearchParameters object
-$searchParameters = new SearchParameters();
-
-//chain some search paramater
-$searchParameters->format('LP')->year('1996');
+// create a SearchParameters object and chain some search paramater
+$searchParameters = SearchParameters::make()->format('LP')->year('1996');
 
 //do a search request with query = 'MoWax' and passing the SearchParameters object
-$searchResult = $discogs->search('MoWax', SearchParameters $searchParameters);
+$searchResult = $discogs->search('MoWax', $searchParameters);
 ```
 
 ## Changelog
@@ -140,9 +139,6 @@ If you discover any security related issues, please email hello@jolitagrazyte.co
 
 - [Jolita Grazyte](https://github.com/JolitaGrazyte)
 - [All Contributors](../../contributors)
-
-## About Spatie
-Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
 ## License
 

@@ -1,22 +1,23 @@
 <?php
 
-namespace Jolita\DiscogsApiWrapper;
+namespace Jolita\DiscogsApi;
 
 use GuzzleHttp\Client;
-use Jolita\DiscogsApiWrapper\Exceptions\DiscogsApiException;
+use Jolita\DiscogsApi\Exceptions\DiscogsApiException;
 
 class DiscogsApi
 {
     protected $baseUrl = 'https://api.discogs.com';
+    protected $client;
     protected $token;
     protected $userAgent;
-    protected $client;
 
     public function __construct(Client $client, string $token = null, string $userAgent = null)
     {
-        $this->userAgent = $userAgent;
-        $this->token = $token;
         $this->client = $client;
+        $this->token = $token;
+        $this->userAgent = $userAgent;
+
     }
 
     public function artist(string $id)
@@ -40,7 +41,7 @@ class DiscogsApi
     {
         $resource = "labels/{$labelId}/releases";
 
-        return $this->get($resource, '');
+        return $this->get($resource);
     }
 
     public function release(string $id)
@@ -83,14 +84,14 @@ class DiscogsApi
         return $this->get("marketplace/orders/{$orderId}/messages", '', [], true);
     }
 
-    public function getMyOrders(int $page = null, int $per_page = null, string $status = null, string $sort = null, string $sort_order = null)
+    public function getMyOrders(int $page = null, int $perPage = null, string $status = null, string $sort = null, string $sortOrder = null)
     {
         $query = [
-            'page' => $page ?: 1,
-            'per_page' => $per_page ?: 50,
-            'status' => $status ?: 'All',
-            'sort' => $sort ?: 'id',
-            'sort_order' => $sort_order ?: 'desc',
+            'page' => $page ?? 1,
+            'per_page' => $perPage ?? 50,
+            'status' => $status ?? 'All',
+            'sort' => $sort ?? 'id',
+            'sort_order' => $sortOrder ?? 'desc',
         ];
 
         return $this->get('marketplace/orders', '', $query, true);
@@ -98,12 +99,12 @@ class DiscogsApi
 
     public function changeOrderStatus(string $orderId, string $status)
     {
-        return $this->postChanges($orderId, 'status', $status);
+        return $this->changeOrder($orderId, 'status', $status);
     }
 
     public function addShipping($orderId, string $shipping)
     {
-        return $this->postChanges($orderId, 'shipping', $shipping);
+        return $this->changeOrder($orderId, 'shipping', $shipping);
     }
 
     public function search(string $keyword, SearchParameters $searchParameters = null)
@@ -119,6 +120,11 @@ class DiscogsApi
         return $this->get('database/search', '', $query, true);
     }
 
+    protected function getAuthenticated(string $resource, string $id = '', array $query = [])
+    {
+
+    }
+
     public function get(string $resource, string $id = '', array $query = [], bool $mustAuthenticate = false)
     {
         $content = $this->client
@@ -131,7 +137,7 @@ class DiscogsApi
         return json_decode($content);
     }
 
-    protected function postChanges(string $orderId, string $key, string $value)
+    protected function changeOrder(string $orderId, string $key, string $value)
     {
         $resource = 'marketplace/orders/';
 
