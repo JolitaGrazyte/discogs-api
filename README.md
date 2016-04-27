@@ -12,7 +12,7 @@ This package makes it easy to communicate with discogs-api. It uses [Guzzle 6](h
 
 You can use it with any PHP framework or just simply in your naked PHP application.
 
-However if you want to use it in Laravel framework, i'd suggest to also install [jolitagrazyte/laravel-discogs package](https://github.com/JolitaGrazyte/laravel-discogs), 
+However if you want to use it in Laravel framework, i'd suggest to also install [jolitagrazyte/laravel-discogs ](https://github.com/JolitaGrazyte/laravel-discogs) package, 
 which provides a facade for even an easier way to play with it.
 
 ## Installation
