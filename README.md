@@ -116,7 +116,7 @@ $discogs = new DiscogsApi('discogs-token', 'app-name');
 // create a SearchParameters object and chain some search paramater
 $searchParameters = SearchParameters::make()->format('LP')->year('1996');
 
-//do a search request with query = 'MoWax' and passing the SearchParameters object
+//do a search request with a query = 'MoWax' and passing the SearchParameters object
 $searchResult = $discogs->search('MoWax', $searchParameters);
 ```
 
