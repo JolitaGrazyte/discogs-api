@@ -70,7 +70,8 @@ $discogs = new DiscogsApi('discogs-token', 'app-name');
 //get orders
 $orders = $discogs->getMyOrders();
 
-//get orders with parameters: in this example page = 3, perPage = 25, status = shipped, sort = created, sortOrder = desc
+//get orders with parameters: 
+//in this example page = 3, perPage = 25, status = shipped, sort = created, sortOrder = desc
 $ordersWithOptions = $discogs->getMyOrders(3, 25, "shipped", "created", "desc");
 ```
 
