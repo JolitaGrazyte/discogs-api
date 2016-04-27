@@ -18,7 +18,7 @@ class SearchParameters
     /** @var string */
     protected $genre;
 
-    /** @var string */
+    /** @var int */
     protected $year;
 
     /** @var string */
@@ -78,7 +78,7 @@ class SearchParameters
         return $this;
     }
 
-    public function setYear(string  $year)
+    public function setYear(int $year)
     {
         $this->year = $year;
 

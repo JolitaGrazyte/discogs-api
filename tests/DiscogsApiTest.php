@@ -138,7 +138,7 @@ class DiscogsApiTest extends \PHPUnit_Framework_TestCase
             ->andReturn(json_encode(['results' => ['style' => $expectedStyles]]));
 
         $this->discogs = new DiscogsApi($this->client, '12345');
-        $searchParameters = SearchParameters::make()->setType('release')->setFormat('LP')->setYear('1996');
+        $searchParameters = SearchParameters::make()->setType('release')->setFormat('LP')->setYear(1996);
         $output = $this->discogs->search('MoWax', $searchParameters)->results->style;
 
         $this->assertEquals($expectedStyles, $output);
