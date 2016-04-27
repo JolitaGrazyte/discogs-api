@@ -17,7 +17,6 @@ class DiscogsApi
         $this->client = $client;
         $this->token = $token;
         $this->userAgent = $userAgent;
-
     }
 
     public function artist(string $id)
@@ -27,9 +26,7 @@ class DiscogsApi
 
     public function artistReleases(string $artistId)
     {
-        $resource = "artists/{$artistId}/releases";
-
-        return $this->get($resource);
+        return $this->get("artists/{$artistId}/releases");
     }
 
     public function label(string $id)
@@ -39,9 +36,7 @@ class DiscogsApi
 
     public function labelReleases(string $labelId)
     {
-        $resource = "labels/{$labelId}/releases";
-
-        return $this->get($resource);
+        return $this->get("labels/{$labelId}/releases");
     }
 
     public function release(string $id)
@@ -66,7 +61,8 @@ class DiscogsApi
 
     public function getMyInventory(string $userName)
     {
-        return $this->get("users/{$userName}/inventory", '', [], true);
+        return $this->getAuthenticated("users/{$userName}/inventory");
+//        return $this->get("users/{$userName}/inventory", '', [], true);
     }
 
     public function deleteListing(string $listingId)
@@ -76,12 +72,14 @@ class DiscogsApi
 
     public function orderWithId(string $id)
     {
-        return $this->get("marketplace/orders/{$id}", '', [], true);
+//        return $this->get("marketplace/orders/{$id}", '', [], true);
+        return $this->getAuthenticated("marketplace/orders/{$id}");
     }
 
     public function orderMessages(string $orderId)
     {
-        return $this->get("marketplace/orders/{$orderId}/messages", '', [], true);
+//        return $this->get("marketplace/orders/{$orderId}/messages", '', [], true);
+        return $this->getAuthenticated("marketplace/orders/{$orderId}/messages");
     }
 
     public function getMyOrders(int $page = null, int $perPage = null, string $status = null, string $sort = null, string $sortOrder = null)
@@ -94,7 +92,8 @@ class DiscogsApi
             'sort_order' => $sortOrder ?? 'desc',
         ];
 
-        return $this->get('marketplace/orders', '', $query, true);
+//        return $this->get('marketplace/orders', '', $query, true);
+        return $this->getAuthenticated('marketplace/orders', '', $query);
     }
 
     public function changeOrderStatus(string $orderId, string $status)
@@ -122,7 +121,7 @@ class DiscogsApi
 
     protected function getAuthenticated(string $resource, string $id = '', array $query = [])
     {
-
+        return $this->get($resource, $id, $query, true);
     }
 
     public function get(string $resource, string $id = '', array $query = [], bool $mustAuthenticate = false)
