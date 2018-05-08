@@ -9,19 +9,19 @@
     "authors": [
         {
             "name": "Jolita Grazyte",
-            "email": "hello@jolitagrazyte.com",
-            "homepage": "http://jolitagrazyte.com",
+            "email": "hello@jolitagraze.com",
+            "homepage": "http://jolitagraze.com",
             "role": "Developer"
         }
     ],
     "require": {
-        "php" : "^7.0",
+        "php" : "^7.1.3",
         "illuminate/support": "5.*",
-        "guzzlehttp/guzzle":"^6.1",
-        "mockery/mockery": "^0.9.4"
+        "guzzlehttp/guzzle":"^6.3",
+        "mockery/mockery": "^1"
     },
     "require-dev": {
-        "phpunit/phpunit": "5.*"
+        "phpunit/phpunit": "^7"
     },
     "autoload": {
         "psr-4": {
