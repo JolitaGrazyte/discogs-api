@@ -7,9 +7,9 @@ use Jolita\DiscogsApi\DiscogsApi;
 use Jolita\DiscogsApi\Exceptions\DiscogsApiException;
 use Mockery;
 use Jolita\DiscogsApi\SearchParameters;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class DiscogsApiTest extends PHPUnit_Framework_TestCase
+class DiscogsApiTest extends TestCase
 {
     protected $token;
     protected $client;
