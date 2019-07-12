@@ -43,6 +43,7 @@ class SearchParameters
             'year' => $this->year,
             'format' => $this->format,
             'catno' => $this->catno,
+            'artist' => $this->artist,
         ];
 
         return collect($fields)->reject(function ($value) {
@@ -50,14 +51,14 @@ class SearchParameters
         });
     }
 
-    public function settype(string $type)
+    public function setType(string $type)
     {
         $this->type = $type;
 
         return $this;
     }
 
-    public function settitle(string $title)
+    public function setTitle(string $title)
     {
         $this->title = $title;
 
