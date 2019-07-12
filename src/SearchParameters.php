@@ -27,6 +27,9 @@ class SearchParameters
     /** @var string */
     protected $catno;
 
+    /** @var string */
+    protected $artist;
+
 
     public static function make()
     {
@@ -96,6 +99,13 @@ class SearchParameters
     public function setCatalogNumber(string $catalogNumber)
     {
         $this->catno = $catalogNumber;
+
+        return $this;
+    }
+
+    public function setArtist(string $artist)
+    {
+        $this->artist = $artist;
 
         return $this;
     }
