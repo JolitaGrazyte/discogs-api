@@ -3,31 +3,35 @@
 namespace Jolita\DiscogsApi\Test;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
 use Jolita\DiscogsApi\DiscogsApi;
 use Jolita\DiscogsApi\Exceptions\DiscogsApiException;
-use Mockery;
 use Jolita\DiscogsApi\SearchParameters;
 use PHPUnit\Framework\TestCase;
+use GuzzleHttp\Handler\MockHandler;
+use Mockery;
 
 class DiscogsApiTest extends TestCase
 {
-    protected $token;
-    protected $client;
-    protected $discogs;
+    protected string $token;
+    protected string $userAgent;
+    protected Client $client;
+    protected DiscogsApi $discogs;
 
-    public function setUp()
+
+    public function setUp(): void
     {
         parent::setUp();
         $this->client = Mockery::mock(Client::class);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Mockery::close();
     }
 
     /** @test */
-    public function it_can_get_artist_by_id()
+    public function it_can_get_artist_by_id(): void
     {
         $nameMustBe = 'The Persuader';
 
@@ -43,7 +47,7 @@ class DiscogsApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_label_by_id()
+    public function it_can_get_label_by_id(): void
     {
         $nameMustBe = 'Planet E';
 
@@ -59,7 +63,7 @@ class DiscogsApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_label_releases()
+    public function it_can_get_label_releases(): void
     {
         $titleMustBe = 'DJ-Kicks';
         $artistMustBe = 'Andrea Parker';
@@ -78,7 +82,7 @@ class DiscogsApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_release_by_id()
+    public function it_can_get_release_by_id(): void
     {
         $titleMustBe = 'Stockholm';
         $artistMustBe = 'The Persuader';
@@ -97,7 +101,7 @@ class DiscogsApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_inventory()
+    public function it_can_get_inventory(): void
     {
         $usernameMustBe = 'wgwstore';
 
@@ -113,7 +117,7 @@ class DiscogsApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_orders()
+    public function it_can_get_orders(): void
     {
         $this->client
             ->shouldReceive('get->getBody->getContents')
@@ -129,7 +133,7 @@ class DiscogsApiTest extends TestCase
     }
 
     /** @test */
-    public function it_search_discogs_database()
+    public function it_search_discogs_database(): void
     {
         $expectedStyles = ['Downtempo', 'Trip Hop'];
 
@@ -146,7 +150,7 @@ class DiscogsApiTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_exception_if_no_token_provided()
+    public function it_throws_exception_if_no_token_provided(): void
     {
         $this->client
             ->shouldReceive('get->getBody->getContents');
@@ -159,11 +163,11 @@ class DiscogsApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_post_order_status_to_discogs()
+    public function it_can_post_order_status_to_discogs(): void
     {
         $this->client
             ->shouldReceive('post')->times(2)->andReturn((object) ['reasonPhrase' => 'OK', 'statusCode' => 200]);
-        $this->discogs = new DiscogsApi($this->client, '12345');
+        $this->discogs = new DiscogsApi($this->client, '12345', 'fakeAgent');
         $reasonPhrase = $this->discogs->changeOrderStatus('123', 'Cancelled (Item Unavailable)')->reasonPhrase;
         $statusCode = $this->discogs->changeOrderStatus('123', 'Cancelled (Item Unavailable)')->statusCode;
 
@@ -172,11 +176,11 @@ class DiscogsApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_post_shipping_to_discogs()
+    public function it_can_post_shipping_to_discogs(): void
     {
         $this->client
             ->shouldReceive('post')->times(2)->andReturn((object) ['reasonPhrase' => 'OK', 'statusCode' => 200]);
-        $this->discogs = new DiscogsApi($this->client, '12345');
+        $this->discogs = new DiscogsApi($this->client, '12345', 'fakeAgent');
         $reasonPhrase = $this->discogs->addShipping('123', '12.60')->reasonPhrase;
         $statusCode = $this->discogs->addShipping('123', '12.60')->statusCode;
 
@@ -185,13 +189,28 @@ class DiscogsApiTest extends TestCase
     }
 
     /** @test */
-    public function it_can_delete_listing_from_inventory()
+    public function it_can_delete_listing_from_inventory(): void
     {
         $this->client
             ->shouldReceive('delete')->times(2)->andReturn((object) ['reasonPhrase' => 'OK', 'statusCode' => 200]);
-        $this->discogs = new DiscogsApi($this->client, '12345');
+        $this->discogs = new DiscogsApi($this->client, '12345', 'fakeAgent');
         $reasonPhrase = $this->discogs->deleteListing('123')->reasonPhrase;
         $statusCode = $this->discogs->deleteListing('123')->statusCode;
+
+        $this->assertEquals($reasonPhrase, 'OK');
+        $this->assertEquals($statusCode, 200);
+    }
+
+    /** @test */
+    public function it_can_request_inventory_export(): void
+    {
+        $this->client
+            ->shouldReceive('post')->times(2)->andReturn((object) ['reasonPhrase' => 'OK', 'statusCode' => 200]);
+        $this->discogs = new DiscogsApi($this->client, '12345', 'fakeAgent');
+        $response = $this->discogs->requestInventoryExport();
+
+        $reasonPhrase = $this->discogs->requestInventoryExport()->reasonPhrase;
+        $statusCode = $this->discogs->requestInventoryExport()->statusCode;
 
         $this->assertEquals($reasonPhrase, 'OK');
         $this->assertEquals($statusCode, 200);

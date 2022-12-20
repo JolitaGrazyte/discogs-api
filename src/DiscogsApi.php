@@ -3,27 +3,39 @@
 namespace Jolita\DiscogsApi;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Jolita\DiscogsApi\Exceptions\DiscogsApiException;
+use JsonException;
 
 class DiscogsApi
 {
-    protected $baseUrl = 'https://api.discogs.com';
-    protected $client;
-    protected $token;
-    protected $userAgent;
+    protected string $baseUrl = 'https://api.discogs.com';
+    protected Client $client;
+    protected string $token;
+    protected string $userAgent;
 
-    public function __construct(Client $client, string $token = null, string $userAgent = null)
+    public function __construct(Client $client, string $token = '', string $userAgent = '')
     {
         $this->client = $client;
         $this->token = $token;
         $this->userAgent = $userAgent;
     }
 
+    /**
+     * @throws DiscogsApiException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws JsonException
+     */
     public function artist(string $id)
     {
         return $this->get('artists', $id);
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws DiscogsApiException
+     * @throws JsonException
+     */
     public function artistReleases(string $artistId)
     {
         return $this->get("artists/{$artistId}/releases");
@@ -136,20 +148,23 @@ class DiscogsApi
         return json_decode($content);
     }
 
+    /**
+     * @throws DiscogsApiException
+     * @throws GuzzleException
+     */
     protected function changeOrder(string $orderId, string $key, string $value)
     {
         $resource = 'marketplace/orders/';
 
         return $this->client
-            ->post($this->url($this->path($resource, $orderId)),
-                ['query' => [
-                    $key => $value,
-                    'token' => $this->token(),
-                ],
-                ]
+            ->post($this->url($this->path($resource, $orderId)), ['token' => $this->token()]
             );
     }
 
+    /**
+     * @throws DiscogsApiException
+     * @throws GuzzleException
+     */
     protected function delete(string $resource, string $listingId)
     {
         return $this->client
@@ -159,15 +174,56 @@ class DiscogsApi
             );
     }
 
+    /**
+     * @throws GuzzleException
+     * @throws DiscogsApiException
+     */
+    public function requestInventoryExport()
+    {
+        return $this->post('inventory/export');
+    }
+
+    /**
+     * @throws GuzzleException
+     * @throws DiscogsApiException
+     * @throws JsonException
+     */
+    public function getInventoryExports()
+    {
+        return $this->getAuthenticated('inventory/export');
+    }
+
+    /**
+     * @throws GuzzleException
+     * @throws DiscogsApiException
+     * @throws JsonException
+     */
+    public function post(string $resource, string $id = '', array $query = [], bool $mustAuthenticate = true)
+    {
+        try {
+            return $this->client
+                ->post(
+                    $this->url($this->path($resource, $id)),
+                    $this->parameters($query, $mustAuthenticate)
+                );
+
+        } catch (GuzzleException $exception) {
+            print $exception;
+        }
+    }
+
+    /**
+     * @throws DiscogsApiException
+     */
     protected function parameters(array $query, bool $mustAuthenticate) : array
     {
         if ($mustAuthenticate) {
-            $query = array_add($query, 'token', $this->token());
+            $query['token'] = $this->token();
         }
 
         return  [
             'stream' => true,
-            'headers' => ['User-Agent' => $this->userAgent ?: null],
+            'headers' => ['User-Agent' => $this->userAgent ?: 'myAgent'],
             'query' => $query,
         ];
     }
