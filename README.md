@@ -8,7 +8,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/jolitagrazyte/discogs-api.svg?style=flat-square)](https://packagist.org/packages/jolitagrazyte/discogs-api)
 
 
-This package makes it easy to communicate with discogs-api. It uses [Guzzle 6](https://github.com/guzzle/guzzle) and is very simple to install and to use.
+This package makes it easy to communicate with discogs-api. It uses [Guzzle 7](https://github.com/guzzle/guzzle) and is very simple to install and to use.
 
 You can use it with any PHP framework or just simply in your naked PHP application.
 
