@@ -53,7 +53,7 @@ class DiscogsApi
 
     public function release(string $id)
     {
-        return $this->get('releases', $id);
+        return $this->getAuthenticated('releases', $id);
     }
 
     public function masterRelease(string $id)
