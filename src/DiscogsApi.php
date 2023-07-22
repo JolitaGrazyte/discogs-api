@@ -3,6 +3,7 @@
 namespace Jolita\DiscogsApi;
 
 use GuzzleHttp\Client;
+use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Jolita\DiscogsApi\Exceptions\DiscogsApiException;
 use JsonException;
@@ -118,6 +119,11 @@ class DiscogsApi
         return $this->changeOrder($orderId, 'shipping', $shipping);
     }
 
+    /**
+     * @throws DiscogsApiException
+     * @throws GuzzleException
+     * @throws JsonException
+     */
     public function search(string $keyword, SearchParameters $searchParameters = null)
     {
         $query = [
@@ -131,28 +137,34 @@ class DiscogsApi
         return $this->get('database/search', '', $query, true);
     }
 
-    protected function getAuthenticated(string $resource, string $id = '', array $query = [])
+    /**
+     * @throws DiscogsApiException
+     * @throws GuzzleException
+     * @throws JsonException
+     */
+    protected function getAuthenticated(string $resource, string $id = '', array $query = []): ResponseInterface
     {
         return $this->get($resource, $id, $query, true);
     }
 
-    public function get(string $resource, string $id = '', array $query = [], bool $mustAuthenticate = false)
+    /**
+     * @throws GuzzleException
+     * @throws DiscogsApiException
+     */
+    public function get(string $resource, string $id = '', array $query = [], bool $mustAuthenticate = false): ResponseInterface
     {
-        $content = $this->client
+        return $this->client
             ->get(
                 $this->url($this->path($resource, $id)),
                 $this->parameters($query, $mustAuthenticate)
-            )->getBody()
-            ->getContents();
-
-        return json_decode($content);
+            );
     }
 
     /**
      * @throws DiscogsApiException
      * @throws GuzzleException
      */
-    protected function changeOrder(string $orderId, string $key, string $value)
+    protected function changeOrder(string $orderId, string $key, string $value): ResponseInterface
     {
         $resource = 'marketplace/orders/';
 
@@ -165,7 +177,7 @@ class DiscogsApi
      * @throws DiscogsApiException
      * @throws GuzzleException
      */
-    protected function delete(string $resource, string $listingId)
+    protected function delete(string $resource, string $listingId): ResponseInterface
     {
         return $this->client
             ->delete(
@@ -177,8 +189,9 @@ class DiscogsApi
     /**
      * @throws GuzzleException
      * @throws DiscogsApiException
+     * @throws JsonException
      */
-    public function requestInventoryExport()
+    public function requestInventoryExport(): ?ResponseInterface
     {
         return $this->post('inventory/export');
     }
@@ -188,7 +201,7 @@ class DiscogsApi
      * @throws DiscogsApiException
      * @throws JsonException
      */
-    public function getInventoryExports()
+    public function getInventoryExports(): ResponseInterface
     {
         return $this->getAuthenticated('inventory/export');
     }
@@ -215,20 +228,20 @@ class DiscogsApi
     /**
      * @throws DiscogsApiException
      */
-    protected function parameters(array $query, bool $mustAuthenticate) : array
+    protected function parameters(array $query, bool $mustAuthenticate): array
     {
         if ($mustAuthenticate) {
             $query['token'] = $this->token();
         }
 
-        return  [
+        return [
             'stream' => true,
             'headers' => ['User-Agent' => $this->userAgent ?: 'myAgent'],
             'query' => $query,
         ];
     }
 
-    protected function token()
+    protected function token(): string
     {
         if (!is_null($this->token)) {
             return $this->token;
@@ -237,12 +250,12 @@ class DiscogsApi
         throw DiscogsApiException::tokenRequiredException();
     }
 
-    protected function url(string $path) : string
+    protected function url(string $path): string
     {
         return "{$this->baseUrl}/{$path}";
     }
 
-    protected function path(string $resource, string $id = '')
+    protected function path(string $resource, string $id = ''): string
     {
         if (empty($id)) {
             return $resource;

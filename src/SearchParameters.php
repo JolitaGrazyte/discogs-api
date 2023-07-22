@@ -7,28 +7,28 @@ use Illuminate\Support\Collection;
 class SearchParameters
 {
     /** @var string */
-    protected $type;
+    protected string $type;
 
     /** @var string */
-    protected $title;
+    protected string $title;
 
     /** @var string */
-    protected $label;
+    protected string $label;
 
     /** @var string */
-    protected $genre;
+    protected string $genre;
 
     /** @var int */
-    protected $year;
+    protected int $year;
 
     /** @var string */
-    protected $format;
+    protected string $format;
 
     /** @var string */
-    protected $catno;
+    protected string $catno;
 
 
-    public static function make()
+    public static function make(): SearchParameters
     {
         return (new static());
     }
@@ -50,49 +50,49 @@ class SearchParameters
         });
     }
 
-    public function settype(string $type)
+    public function setType(string $type): static
     {
         $this->type = $type;
 
         return $this;
     }
 
-    public function settitle(string $title)
+    public function setTitle(string $title): static
     {
         $this->title = $title;
 
         return $this;
     }
 
-    public function setLabel(string $label)
+    public function setLabel(string $label): static
     {
         $this->label = $label;
 
         return $this;
     }
 
-    public function setGenre(string $genre)
+    public function setGenre(string $genre): static
     {
         $this->genre = $genre;
 
         return $this;
     }
 
-    public function setYear(int $year)
+    public function setYear(int $year): static
     {
         $this->year = $year;
 
         return $this;
     }
 
-    public function setFormat(string $format)
+    public function setFormat(string $format): static
     {
         $this->format = $format;
 
         return $this;
     }
 
-    public function setCatalogNumber(string $catalogNumber)
+    public function setCatalogNumber(string $catalogNumber): static
     {
         $this->catno = $catalogNumber;
 
