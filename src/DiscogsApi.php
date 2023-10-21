@@ -2,6 +2,7 @@
 
 namespace Jolita\DiscogsApi;
 
+use Exception;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\GuzzleException;
@@ -24,78 +25,108 @@ class DiscogsApi
 
     /**
      * @throws DiscogsApiException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws JsonException
+     * @throws GuzzleException
      */
-    public function artist(string $id)
+    public function artist(string $id): ResponseInterface
     {
         return $this->get('artists', $id);
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      * @throws DiscogsApiException
-     * @throws JsonException
      */
-    public function artistReleases(string $artistId)
+    public function artistReleases(string $artistId): ResponseInterface
     {
         return $this->get("artists/{$artistId}/releases");
     }
 
-    public function label(string $id)
+    /**
+     * @throws GuzzleException
+     * @throws DiscogsApiException
+     */
+    public function label(string $id): ResponseInterface
     {
         return $this->get('labels', $id);
     }
 
-    public function labelReleases(string $labelId)
+    /**
+     * @throws GuzzleException
+     * @throws DiscogsApiException
+     */
+    public function labelReleases(string $labelId): ResponseInterface
     {
         return $this->get("labels/{$labelId}/releases");
     }
 
-    public function release(string $id)
+    /**
+     * @throws DiscogsApiException
+     * @throws GuzzleException
+     */
+    public function release(string $id): ResponseInterface
     {
         return $this->getAuthenticated('releases', $id);
     }
 
-    public function masterRelease(string $id)
+    /**
+     * @throws DiscogsApiException
+     * @throws GuzzleException
+     */
+    public function masterRelease(string $id): ResponseInterface
     {
         return $this->get('masters', $id);
     }
 
-    public function userCollection(string $userName)
+    /**
+     * @throws DiscogsApiException
+     * @throws GuzzleException
+     */
+    public function userCollection(string $userName): ResponseInterface
     {
         return $this->get("/users/{$userName}/collection/folders");
     }
 
-    public function getMarketplaceListing(string $id)
+    /**
+     * @throws GuzzleException
+     * @throws DiscogsApiException
+     */
+    public function getMarketplaceListing(string $id): ResponseInterface
     {
         return $this->get("/marketplace/listings/{$id}");
     }
 
-    public function getMyInventory(string $userName)
-    {
-        return $this->getAuthenticated("users/{$userName}/inventory");
-//        return $this->get("users/{$userName}/inventory", '', [], true);
-    }
-
-    public function deleteListing(string $listingId)
+    /**
+     * @throws GuzzleException
+     * @throws DiscogsApiException
+     */
+    public function deleteListing(string $listingId): ResponseInterface
     {
         return $this->delete('marketplace/listings/', $listingId);
     }
 
-    public function orderWithId(string $id)
+    /**
+     * @throws DiscogsApiException
+     * @throws GuzzleException
+     */
+    public function orderWithId(string $id): ResponseInterface
     {
-//        return $this->get("marketplace/orders/{$id}", '', [], true);
         return $this->getAuthenticated("marketplace/orders/{$id}");
     }
 
-    public function orderMessages(string $orderId)
+    /**
+     * @throws GuzzleException
+     * @throws DiscogsApiException
+     */
+    public function orderMessages(string $orderId): ResponseInterface
     {
-//        return $this->get("marketplace/orders/{$orderId}/messages", '', [], true);
         return $this->getAuthenticated("marketplace/orders/{$orderId}/messages");
     }
 
-    public function getMyOrders(int $page = null, int $perPage = null, string $status = null, string $sort = null, string $sortOrder = null)
+    /**
+     * @throws DiscogsApiException
+     * @throws GuzzleException
+     */
+    public function getMyOrders(int $page = null, int $perPage = null, string $status = null, string $sort = null, string $sortOrder = null): ResponseInterface
     {
         $query = [
             'page' => $page ?? 1,
@@ -105,16 +136,23 @@ class DiscogsApi
             'sort_order' => $sortOrder ?? 'desc',
         ];
 
-//        return $this->get('marketplace/orders', '', $query, true);
         return $this->getAuthenticated('marketplace/orders', '', $query);
     }
 
-    public function changeOrderStatus(string $orderId, string $status)
+    /**
+     * @throws DiscogsApiException
+     * @throws GuzzleException
+     */
+    public function changeOrderStatus(string $orderId, string $status): ResponseInterface
     {
         return $this->changeOrder($orderId, 'status', $status);
     }
 
-    public function addShipping($orderId, string $shipping)
+    /**
+     * @throws GuzzleException
+     * @throws DiscogsApiException
+     */
+    public function addShipping($orderId, string $shipping): ResponseInterface
     {
         return $this->changeOrder($orderId, 'shipping', $shipping);
     }
@@ -122,9 +160,8 @@ class DiscogsApi
     /**
      * @throws DiscogsApiException
      * @throws GuzzleException
-     * @throws JsonException
      */
-    public function search(string $keyword, SearchParameters $searchParameters = null)
+    public function search(string $keyword, SearchParameters $searchParameters = null): ResponseInterface
     {
         $query = [
             'q' => $keyword,
@@ -140,9 +177,8 @@ class DiscogsApi
     /**
      * @throws DiscogsApiException
      * @throws GuzzleException
-     * @throws JsonException
      */
-    protected function getAuthenticated(string $resource, string $id = '', array $query = []): ResponseInterface
+    public function getAuthenticated(string $resource, string $id = '', array $query = []): ResponseInterface
     {
         return $this->get($resource, $id, $query, true);
     }
@@ -187,9 +223,7 @@ class DiscogsApi
     }
 
     /**
-     * @throws GuzzleException
      * @throws DiscogsApiException
-     * @throws JsonException
      */
     public function requestInventoryExport(): ?ResponseInterface
     {
@@ -201,17 +235,16 @@ class DiscogsApi
      * @throws DiscogsApiException
      * @throws JsonException
      */
-    public function getInventoryExports(): ResponseInterface
+    public function getInventoryExports(int $page = 1, int $perPage = 100): ResponseInterface
     {
-        return $this->getAuthenticated('inventory/export');
+        return $this->getAuthenticated('inventory/export', '', ['page' => $page, 'per_page' => $perPage]);
     }
 
     /**
-     * @throws GuzzleException
      * @throws DiscogsApiException
-     * @throws JsonException
+     * @throws Exception
      */
-    public function post(string $resource, string $id = '', array $query = [], bool $mustAuthenticate = true)
+    public function post(string $resource, string $id = '', array $query = [], bool $mustAuthenticate = true): ResponseInterface
     {
         try {
             return $this->client
@@ -221,7 +254,7 @@ class DiscogsApi
                 );
 
         } catch (GuzzleException $exception) {
-            print $exception;
+            throw new \RuntimeException($exception->getMessage());
         }
     }
 
