@@ -10,19 +10,19 @@
         {
             "name": "Jolita Grazyte",
             "email": "hello@jolitagraze.com",
-            "homepage": "http://jolitagraze.com",
+            "homepage": "https://jolitagraze.com",
             "role": "Developer"
         }
     ],
     "require": {
         "php" : "^7.4|^8.1|^8.2",
-        "illuminate/support": "^9.28|^10.0",
-        "guzzlehttp/guzzle": "^7.2",
+        "illuminate/support": "^9.28|^10.0|^11.0",
+        "guzzlehttp/guzzle": "^7.8",
         "ext-json": "*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
-        "phpunit/phpunit": "^9.5|^10.0",
+        "phpunit/phpunit": "^9.5|^10.5|^11.0",
         "mockery/mockery": "^1.4.4"
     },
     "autoload": {
